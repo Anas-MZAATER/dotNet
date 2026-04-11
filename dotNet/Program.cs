@@ -14,6 +14,7 @@ namespace dotNet
             Console.WriteLine("2. Tableau");
             Console.WriteLine("3. Manipulation de matrices");
             Console.WriteLine("4. Tableau de chaînes");
+            Console.WriteLine("5. Gestion des exceptions");
             Console.Write("Choix : ");
 
             string choix = Console.ReadLine();
@@ -31,6 +32,9 @@ namespace dotNet
                     break;
                 case "4":
                     Programme4.Lancer();
+                    break;
+                case "5":
+                    Programme5.Lancer();
                     break;
                 default:
                     Console.WriteLine("Choix invalide");
@@ -411,6 +415,136 @@ namespace dotNet
                     Console.WriteLine("Fin des recherches. Retour au menu principal.");
                     break;
                 }
+            }
+        }
+    }
+    // ─────────────────────────────────────────
+    // PROGRAMME 5 — Gestion des exceptions
+    // ─────────────────────────────────────────
+    class Programme5
+    {
+        public static void Lancer()
+        {
+            int choix;
+
+            do
+            {
+                Console.WriteLine("\n=== MENU EXCEPTIONS ===");
+                Console.WriteLine("1. Vérifier entier");
+                Console.WriteLine("2. Vérifier entier (avec répétition)");
+                Console.WriteLine("3. Saisir date de naissance");
+                Console.WriteLine("4. Vérifier dates debut et fin");
+                Console.WriteLine("5. Convertir date en lettre (exp: 3/2/5)");
+                Console.WriteLine("0. Retour");
+                Console.Write("Choix : ");
+
+                int.TryParse(Console.ReadLine(), out choix);
+
+                switch (choix)
+                {
+                    case 1: Exo1(); break;
+                    case 2: Exo2(); break;
+                    case 3: Exo3(); break;
+                    case 4: Exo4(); break;
+                    case 5: Exo5(); break;
+                }
+
+            } while (choix != 0);
+        }
+
+        static void Exo1()
+        {
+            try
+            {
+                Console.Write("Entrez un entier : ");
+                int n = int.Parse(Console.ReadLine());
+                Console.WriteLine("Entier : " + n);
+            }
+            catch
+            {
+                Console.WriteLine("Erreur !");
+            }
+        }
+
+        static void Exo2()
+        {
+            int n;
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Entrez un entier : ");
+                    n = int.Parse(Console.ReadLine());
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Réessayez !");
+                }
+            }
+            Console.WriteLine("Entier : " + n);
+        }
+
+        static void Exo3()
+        {
+            DateTime d;
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Date (jj/mm/aaaa) : ");
+                    d = DateTime.Parse(Console.ReadLine());
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Date invalide !");
+                }
+            }
+            Console.WriteLine("Date : " + d.ToShortDateString());
+        }
+
+        static void Exo4()
+        {
+            try
+            {
+                Console.Write("Date début : ");
+                DateTime d1 = DateTime.Parse(Console.ReadLine());
+
+                Console.Write("Date fin : ");
+                DateTime d2 = DateTime.Parse(Console.ReadLine());
+
+                if (d2 < d1)
+                    throw new Exception("Date fin < date début");
+
+                Console.WriteLine("OK");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void Exo5()
+        {
+            try
+            {
+                Console.Write("Ex (3/2/5) : ");
+                string[] p = Console.ReadLine().Split('/');
+
+                int js = int.Parse(p[0]);
+                int j = int.Parse(p[1]);
+                int m = int.Parse(p[2]);
+
+                string[] jours = { "", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche" };
+                string[] mois = { "", "janvier", "février", "mars", "avril", "mai", "juin",
+                              "juillet", "août", "septembre", "octobre", "novembre", "décembre" };
+
+                Console.WriteLine($"{jours[js]} {j} {mois[m]}");
+            }
+            catch
+            {
+                Console.WriteLine("Erreur !");
             }
         }
     }
